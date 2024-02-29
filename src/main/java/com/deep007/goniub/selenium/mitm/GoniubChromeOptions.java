@@ -1,23 +1,16 @@
 package com.deep007.goniub.selenium.mitm;
 
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.remote.CapabilityType;
-
 import com.deep007.goniub.request.HttpsProxy;
 import com.deep007.goniub.terminal.LinuxTerminalHelper;
 import com.deep007.goniub.util.Boot;
-
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.CapabilityType;
+
+import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 public class GoniubChromeOptions extends ChromeOptions {
@@ -27,30 +20,41 @@ public class GoniubChromeOptions extends ChromeOptions {
 	public static final String IOS_USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0_1 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A402 Safari/604.1";
 
 	public static final String CHROME_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:56.0) Gecko/20100101 Firefox/56.0";
-	
-	public static String CHROME_DRIVER;
-	
+
+	private static String CHROME_PATH;
+	private static String CHROME_DRIVER;
+
 	public final String userAgent;
-	
+
 	public final boolean hideFingerprint;
 	public final boolean disableLoadImage;
 	public final boolean headless;
-	
+	public static void setPath(String driverPath){
+		setPath(driverPath,null);
+	}
+
+	public static void setPath(String driverPath,String chromePath){
+		//浏览器驱动
+		CHROME_DRIVER = driverPath;
+		//浏览器地址
+		CHROME_PATH = chromePath;
+	}
+
 	public GoniubChromeOptions() {
 		this(false, false);
 	}
-	
+
 	public GoniubChromeOptions(boolean disableLoadImage, boolean headless) {
 		this(disableLoadImage, headless, true, null, CHROME_USER_AGENT);
 	}
-	
+
 	public GoniubChromeOptions(boolean disableLoadImage, boolean headless, HttpsProxy httpsProxy,
-			String userAgent) {
+							   String userAgent) {
 		this(disableLoadImage, headless, true, null, CHROME_USER_AGENT);
 	}
-	
+
 	public GoniubChromeOptions(boolean disableLoadImage, boolean headless, boolean hideFingerprint, HttpsProxy httpsProxy,
-			String userAgent) {
+							   String userAgent) {
 		this.disableLoadImage = disableLoadImage;
 		this.headless = headless;
 		this.hideFingerprint = hideFingerprint;
@@ -64,17 +68,22 @@ public class GoniubChromeOptions extends ChromeOptions {
 				throw new RuntimeException("请设置CHROME_DRIVER的路径");
 			}
 			System.setProperty("webdriver.chrome.driver", chromeDriver);
-		}else if (Boot.isLinuxSystem()) {
+		}else if (Boot.isLinuxSystem()&&CHROME_PATH==null) {
 			String CHROME_BINARY = LinuxTerminalHelper.findAbsoluteVar("google-chrome");
-			if (CHROME_BINARY == null || CHROME_BINARY.equals("google-chrome")) {
+			if (CHROME_BINARY == null || "google-chrome".equals(CHROME_BINARY)) {
 				throw new RuntimeException("请安装google-chrome.");
 			}
 			options.setBinary(CHROME_BINARY);
 		}else if (Boot.isWindowsSystem()) {
-			
+
+
 		}
 		if (Boot.isLinuxSystem() && headless) {
 			options.addArguments("--headless");// headless mode
+		}
+		System.out.println("CHROME_PATH:"+CHROME_PATH);
+		if (CHROME_PATH!=null){
+			options.setBinary(CHROME_PATH);
 		}
 		options.addArguments("--header-args");
 		options.addArguments("--disable-gpu");
