@@ -1,6 +1,7 @@
 package com.deep007.goniub.hybridtest;
 
 import com.deep007.goniub.selenium.mitm.GoniubChromeDriver;
+import com.deep007.goniub.util.SeleniumUtils;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -16,7 +17,7 @@ public class GoniubChromeDriverTest {
 //		浏览器地址
 //		GoniubChromeOptions.CHROME_PATH = "F:\\work\\code\\java\\tiktok-assistant\\Chrome\\chrome.exe";
 
-		GoniubChromeDriver hideMockerFeatureDriver = GoniubChromeDriver.newChromeInstance(false, false, null);
+		GoniubChromeDriver hideMockerFeatureDriver = SeleniumUtils.getHideMockerFeatureDriver("F:\\work\\code\\java\\tiktok-assistant\\Chrome\\chromedriver.exe","F:\\work\\code\\java\\tiktok-assistant\\Chrome\\chrome.exe");
 //		hideMockerFeatureDriver.get("https://www.taobao.com");
 		hideMockerFeatureDriver.get("https://www.tiktok.com");
 		Object ret = hideMockerFeatureDriver.executeScript("return window.navigator.webdriver");

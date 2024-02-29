@@ -29,7 +29,7 @@
 		<developerConnection>scm:git:git@github.com:CreditTone/goniub.git</developerConnection>
 		<url>git@github.com:CreditTone/goniub.git</url>
 	</scm>
-	<description>一个爬虫开发的工具包，方便使用。够牛逼！</description>
+	<description>一个爬虫开发的工具包，方便使用！更牛逼！</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -130,7 +130,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>30.0-jre</version>
+			<version>31.1-jre</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
 		<dependency>
