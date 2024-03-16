@@ -8,7 +8,7 @@ import com.deep007.goniub.selenium.mitm.GoniubChromeOptions;
  * @author cjl
  * @version 1.0
  */
-public class SeleniumUtils {
+public class GoniubInitUtils {
     private static GoniubChromeDriver hideMockerFeatureDriver;
     private static void initChromeDriver(String driverPath) {
         initChromeDriver(driverPath,null);
@@ -22,8 +22,13 @@ public class SeleniumUtils {
      */
     private static void initChromeDriver(String driverPath,String chromePath) {
         //设置 浏览器驱动和浏览器所在地址
-        GoniubChromeOptions.setPath(driverPath,chromePath)  ;
-        hideMockerFeatureDriver = GoniubChromeDriver.newChromeInstance(false, false, null);
+        GoniubChromeOptions.setPath(driverPath,chromePath);
+        try {
+            hideMockerFeatureDriver = GoniubChromeDriver.newChromeInstance(false, false, null);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
     public static GoniubChromeDriver getHideMockerFeatureDriver(String driverPath) {
         initChromeDriver(driverPath);

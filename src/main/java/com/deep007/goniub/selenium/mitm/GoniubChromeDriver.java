@@ -9,9 +9,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.net.URL;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -21,7 +19,12 @@ public class GoniubChromeDriver extends ChromeDriver {
 	public static final Random RANDOM = new Random();
 	
 	private GoniubChromeOptions options;
-	
+	private final List<String> urlHistory=new ArrayList<>();
+
+	public List<String> getUrlHistory() {
+		return new ArrayList<>(urlHistory);
+	}
+
 	private static volatile String stealthMinJsData = null;
 	
 	public GoniubChromeDriver() {
@@ -56,7 +59,7 @@ public class GoniubChromeDriver extends ChromeDriver {
 			byte[] data = IOUtils.readInputStream(fileURL.openStream());
 			return new String(data);
 		} catch (Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 		try {
 			URL fileURL = GoniubChromeDriver.class.getResource("/"+classPathJs); 
@@ -84,6 +87,7 @@ public class GoniubChromeDriver extends ChromeDriver {
 			try {
 				super.get(url);
 				log.debug("visit:"+url);
+				urlHistory.add(url);
 			}catch(Exception e){
 				log.warn("chrome请求异常:"+url, e);
 				continue;
