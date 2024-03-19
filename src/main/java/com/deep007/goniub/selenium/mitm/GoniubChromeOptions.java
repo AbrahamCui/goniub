@@ -99,7 +99,7 @@ public class GoniubChromeOptions extends ChromeOptions {
 		//this.setExperimentalOption("useAutomationExtension", false);
 
 		String tmpdir = System.getProperty("java.io.tmpdir");
-		String dir = tmpdir + File.separator + "chrome_file_data_cache"+File.separator+fileSerial.incrementAndGet();
+		String dir = tmpdir + File.separator + "chrome_file_data_cache"+File.separator+1;
 		File file1 = new File(dir+File.separator + "data");
 		if (file1.exists()) {
 			file1.mkdirs();
