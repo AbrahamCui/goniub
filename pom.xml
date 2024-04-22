@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.deep007</groupId>
 	<artifactId>goniub</artifactId>
-	<version>2.0.3</version>
+	<version>2.0.2</version>
 	<name>goniub</name>
 	<url>https://github.com/CreditTone/goniub</url>
 	<packaging>jar</packaging>
@@ -20,7 +20,7 @@
 	<developers>
 		<developer>
 			<name>guozhong</name>
-			<email>1273568669@qq.com</email>
+			<email>123456@qq.com</email>
 			<url>https://github.com/CreditTone/goniub</url>
 		</developer>
 	</developers>
@@ -174,7 +174,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>4.0.0-alpha-7</version>
+			<version>4.11.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
 		<dependency>

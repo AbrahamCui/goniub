@@ -26,9 +26,9 @@ public class GoniubInitUtils {
         try {
             hideMockerFeatureDriver = GoniubChromeDriver.newChromeInstance(false, false, null);
         }catch (Exception e){
+            hideMockerFeatureDriver=null;
             e.printStackTrace();
         }
-
     }
     public static GoniubChromeDriver getHideMockerFeatureDriver(String driverPath) {
         initChromeDriver(driverPath);
@@ -37,6 +37,12 @@ public class GoniubInitUtils {
     public static GoniubChromeDriver getHideMockerFeatureDriver(String driverPath,String chromePath) {
         initChromeDriver(driverPath,chromePath);
         return hideMockerFeatureDriver;
+    }
+    public static GoniubChromeDriver getHideMockerFeatureDriver(String driverPath,String chromePath,String dataPath,String cachePath) {
+//        initChromeDriver(driverPath,chromePath);
+        GoniubChromeOptions.setDATA(dataPath);
+        GoniubChromeOptions.setCACHE(cachePath);
+        return getHideMockerFeatureDriver(driverPath,chromePath);
     }
     public static void clearDriver(){
         if (hideMockerFeatureDriver!=null){
