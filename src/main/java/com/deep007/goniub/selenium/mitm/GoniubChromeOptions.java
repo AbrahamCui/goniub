@@ -93,7 +93,7 @@ public class GoniubChromeOptions extends ChromeOptions {
             this.setBinary(CHROME_BINARY);
         } else if (Boot.isWindowsSystem()) {
         }
-        if (Boot.isLinuxSystem() && headless) {
+        if (headless) {
             this.addArguments("--headless");// headless mode
         }
         System.out.println("CHROME_PATH:" + CHROME_PATH);
@@ -101,6 +101,12 @@ public class GoniubChromeOptions extends ChromeOptions {
             this.setBinary(CHROME_PATH);
         }
         this.addArguments("--remote-allow-origins=*");
+
+        System.out.println(12123123);
+        this.addArguments("--remote-debugging-port=13628");
+//        this.addArguments("--debuggerAddress=127.0.0.1:8081");
+        this.addArguments("--allowed-origins=*");
+        this.addArguments("--allowed-ips=*");
         this.addArguments("--header-args");
         this.addArguments("--disable-gpu");
         this.addArguments("--ignore-certificate-errors");
@@ -111,6 +117,7 @@ public class GoniubChromeOptions extends ChromeOptions {
         //this.addArguments("user-data-dir=C:/Users/Administrator/AppData/Local/Google/Chrome/User Data");//待研究
         //不提示“Chrome正受到自动测试软件控制”
         this.setExperimentalOption("excludeSwitches", Collections.singletonList("enable-automation"));
+//        this.setExperimentalOption("debuggerAddress", "127.0.0.1:13888");
         //this.setExperimentalOption("useAutomationExtension", false);
 //		System.setProperty("webdriver.chrome.whitelistedIps", "");
 
@@ -153,7 +160,7 @@ public class GoniubChromeOptions extends ChromeOptions {
         } else {
 //			this.addArguments("--disable-extensions");
         }
-        Map<String, Object> prefs = new HashMap<String, Object>();
+        Map<String, Object> prefs = new HashMap<>();
         prefs.put(CapabilityType.ACCEPT_INSECURE_CERTS, true);
         prefs.put("profile.default_content_settings.popups", 0);
         prefs.put("profile.password_manager_enabled", false);
