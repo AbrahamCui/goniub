@@ -107,6 +107,7 @@ public class GoniubChromeOptions extends ChromeOptions {
 //        this.addArguments("--debuggerAddress=127.0.0.1:8081");
         this.addArguments("--allowed-origins=*");
         this.addArguments("--allowed-ips=*");
+//        this.addArguments("--whitelistedIps=''");
         this.addArguments("--header-args");
         this.addArguments("--disable-gpu");
         this.addArguments("--ignore-certificate-errors");
