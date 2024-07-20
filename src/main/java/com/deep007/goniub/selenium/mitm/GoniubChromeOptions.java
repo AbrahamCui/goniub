@@ -71,6 +71,8 @@ public class GoniubChromeOptions extends ChromeOptions {
 
     public GoniubChromeOptions(boolean disableLoadImage, boolean headless, boolean hideFingerprint, HttpsProxy httpsProxy,
                                String userAgent) {
+//        System.setProperty("webdriver.chrome.whitelistedIps", "");
+//        System.setProperty("whitelistedIps", "");
         System.out.println("tmpdir:" + tmpdir);
         this.disableLoadImage = disableLoadImage;
         this.headless = headless;
@@ -108,7 +110,7 @@ public class GoniubChromeOptions extends ChromeOptions {
         this.addArguments("--allowed-origins=*");
         this.addArguments("--allowed-ips=*");
         //修改ip白名单--待验证
-//        this.addArguments("--whitelistedIps=''");
+//        this.addArguments("--whitelistedIps=\"\"");
         this.addArguments("--header-args");
         this.addArguments("--disable-gpu");
         this.addArguments("--ignore-certificate-errors");
