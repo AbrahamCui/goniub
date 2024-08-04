@@ -53,7 +53,7 @@ public class GoniubInitUtils {
         //设置 浏览器驱动和浏览器所在地址
         GoniubChromeOptions.setPath(driverPath,chromePath);
         try {
-            hideMockerFeatureDriver = GoniubChromeDriver.newChromeInstance(false, isHide, null);
+            hideMockerFeatureDriver = GoniubChromeDriver.newAndroidInstance(false, isHide, null);
         }catch (Exception e){
             hideMockerFeatureDriver=null;
             e.printStackTrace();

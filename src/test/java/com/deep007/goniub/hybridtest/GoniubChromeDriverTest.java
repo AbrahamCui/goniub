@@ -19,9 +19,10 @@ public class GoniubChromeDriverTest {
 //		浏览器地址
 //		GoniubChromeOptions.CHROME_PATH = "F:\\work\\code\\java\\tiktok-assistant\\Chrome\\chrome.exe";
 
-		GoniubChromeDriver hideMockerFeatureDriver = GoniubInitUtils.getHideMockerFeatureDriver("F:\\work\\code\\java\\tiktok-assistant\\Chrome\\chromedriver.exe","F:\\work\\code\\java\\tiktok-assistant\\Chrome\\chrome.exe");
+		GoniubChromeDriver hideMockerFeatureDriver = GoniubInitUtils.getHideMockerFeatureDriver("D:\\work\\打包\\火箭直播打包\\rocket-live-assistant\\Chrome\\chromedriver.exe","D:\\work\\打包\\火箭直播打包\\rocket-live-assistant\\Chrome\\chrome.exe");
 //		hideMockerFeatureDriver.get("https://www.taobao.com");
-		hideMockerFeatureDriver.get("https://www.baidu.com");
+//		hideMockerFeatureDriver.get("https://www.baidu.com");
+		hideMockerFeatureDriver.get("https://gjvip.zygjb.com/");
 		System.out.println(33333);
 //		hideMockerFeatureDriver.getDevTools().clearListeners();
 		Object ret = hideMockerFeatureDriver.executeScript("return window.navigator.webdriver");

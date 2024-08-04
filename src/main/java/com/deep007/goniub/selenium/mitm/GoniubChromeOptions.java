@@ -38,15 +38,15 @@ public class GoniubChromeOptions extends ChromeOptions {
         setPath(driverPath, null);
     }
 
-	public static void setDATA(String DATA) {
-		GoniubChromeOptions.DATA = DATA;
-	}
+    public static void setDATA(String DATA) {
+        GoniubChromeOptions.DATA = DATA;
+    }
 
-	public static void setCACHE(String CACHE) {
-		GoniubChromeOptions.CACHE = CACHE;
-	}
+    public static void setCACHE(String CACHE) {
+        GoniubChromeOptions.CACHE = CACHE;
+    }
 
-	public static void setPath(String driverPath, String chromePath) {
+    public static void setPath(String driverPath, String chromePath) {
         //浏览器驱动
         CHROME_DRIVER = driverPath;
         //浏览器地址
@@ -55,22 +55,28 @@ public class GoniubChromeOptions extends ChromeOptions {
 
 
     public GoniubChromeOptions() {
-        this(false, false);
+        this(false, false, false);
+    }
+
+    public GoniubChromeOptions(boolean disableLoadImage, boolean headless, boolean isAPP) {
+        this(disableLoadImage, headless, true, null, CHROME_USER_AGENT, isAPP);
     }
 
     public GoniubChromeOptions(boolean disableLoadImage, boolean headless) {
-        this(disableLoadImage, headless, true, null, CHROME_USER_AGENT);
+        this(disableLoadImage, headless, true, null, CHROME_USER_AGENT, false);
     }
 
-    public GoniubChromeOptions(boolean disableLoadImage, boolean headless, HttpsProxy httpsProxy,
-                               String userAgent) {
-        this(disableLoadImage, headless, true, httpsProxy, CHROME_USER_AGENT);
+    public GoniubChromeOptions(boolean disableLoadImage, boolean headless, HttpsProxy httpsProxy, String userAgent) {
+        this(disableLoadImage, headless, true, httpsProxy, userAgent, false);
+    }
+
+    public GoniubChromeOptions(boolean disableLoadImage, boolean headless, HttpsProxy httpsProxy, String userAgent, boolean isAPP) {
+        this(disableLoadImage, headless, true, httpsProxy, userAgent, isAPP);
     }
 
     private static AtomicInteger fileSerial = new AtomicInteger(0);
 
-    public GoniubChromeOptions(boolean disableLoadImage, boolean headless, boolean hideFingerprint, HttpsProxy httpsProxy,
-                               String userAgent) {
+    public GoniubChromeOptions(boolean disableLoadImage, boolean headless, boolean hideFingerprint, HttpsProxy httpsProxy, String userAgent, boolean isAPP) {
 //        System.setProperty("webdriver.chrome.whitelistedIps", "");
 //        System.setProperty("whitelistedIps", "");
         System.out.println("tmpdir:" + tmpdir);
@@ -78,6 +84,14 @@ public class GoniubChromeOptions extends ChromeOptions {
         this.headless = headless;
         this.hideFingerprint = hideFingerprint;
 //		ChromeOptions options = this;
+        if (isAPP) {
+//            Mobile = {"deviceName": "iPhone 12 Pro"};
+//            options = webdriver.ChromeOptions();
+//            options.add_experimental_option("mobileEmulation", Mobile)
+            HashMap<String, String> mobileEmulation = new HashMap<>();//增加本行
+            mobileEmulation.put("deviceName", "Samsung Galaxy S20 Ultra");//这里是要使用的模拟器名称
+            this.setExperimentalOption("mobileEmulation", mobileEmulation);//增加本行
+        }
         if ((CHROME_DRIVER != null && new File(CHROME_DRIVER).exists()) || Boot.isMacSystem()) {
             String chromeDriver = CHROME_DRIVER;
             if (chromeDriver == null) {
@@ -103,10 +117,9 @@ public class GoniubChromeOptions extends ChromeOptions {
             this.setBinary(CHROME_PATH);
         }
         this.addArguments("--remote-allow-origins=*");
-
         System.out.println(12123123);
-        this.addArguments("--remote-debugging-port=13628");
-//        this.addArguments("--debuggerAddress=127.0.0.1:8081");
+//        this.addArguments("--remote-debugging-port=13628");    //修改为指定端口(注释就为随机端口)
+//        this.addArguments("--debuggerAddress=127.0.0.1:8081");//(未知作用)暂时没啥用
         this.addArguments("--allowed-origins=*");
         this.addArguments("--allowed-ips=*");
         //修改ip白名单--待验证
@@ -153,8 +166,7 @@ public class GoniubChromeOptions extends ChromeOptions {
         if (httpsProxy != null) {
             if (httpsProxy.getUsername() != null && httpsProxy.getPassword() != null) {
                 this.addArguments("--start-maximized");
-                File extension = ChromeExtensionUtil.createProxyauthExtension(httpsProxy.getServer(), httpsProxy.getPort(),
-                        httpsProxy.getUsername(), httpsProxy.getPassword());
+                File extension = ChromeExtensionUtil.createProxyauthExtension(httpsProxy.getServer(), httpsProxy.getPort(), httpsProxy.getUsername(), httpsProxy.getPassword());
                 log.info("createProxyauthExtension:" + extension.getAbsolutePath());
                 this.addExtensions(extension);
             } else {

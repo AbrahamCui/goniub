@@ -278,7 +278,7 @@ public class GoniubChromeDriver extends ChromeDriver {
 
 	public static GoniubChromeDriver newAndroidInstance(boolean disableLoadImage, boolean headless, HttpsProxy httpsProxy) {
 		return new GoniubChromeDriver(new GoniubChromeOptions(disableLoadImage, headless, 
-				httpsProxy, GoniubChromeOptions.ANDROID_USER_AGENT));
+				httpsProxy, GoniubChromeOptions.ANDROID_USER_AGENT,true));
 	}
 
 	public static GoniubChromeDriver newIOSInstance(boolean disableLoadImage, boolean headless, HttpsProxy httpsProxy) {
@@ -288,7 +288,7 @@ public class GoniubChromeDriver extends ChromeDriver {
 	
 	public static GoniubChromeDriver newInstance(boolean disableLoadImage, boolean headless, boolean hideFingerprint, HttpsProxy httpsProxy, String userAgent) {
 		return new GoniubChromeDriver(new GoniubChromeOptions(disableLoadImage, headless, hideFingerprint,
-				httpsProxy, userAgent));
+				httpsProxy, userAgent,false));
 	}
 	
 }
