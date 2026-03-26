@@ -2,11 +2,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.deep007</groupId>
-	<artifactId>goniub</artifactId>
+	<groupId>com.rocket</groupId>
+	<artifactId>chrome-driver</artifactId>
 	<version>2.0.2</version>
-	<name>goniub</name>
-	<url>https://github.com/CreditTone/goniub</url>
+	<name>chrome-driver</name>
+
 	<packaging>jar</packaging>
 
 	<licenses>
@@ -17,18 +17,8 @@
 		</license>
 	</licenses>
 
-	<developers>
-		<developer>
-			<name>guozhong</name>
-			<email>123456@qq.com</email>
-			<url>https://github.com/CreditTone/goniub</url>
-		</developer>
-	</developers>
-	<scm>
-		<connection>scm:git:git@github.com:CreditTone/goniub.git</connection>
-		<developerConnection>scm:git:git@github.com:CreditTone/goniub.git</developerConnection>
-		<url>git@github.com:CreditTone/goniub.git</url>
-	</scm>
+
+
 	<description>一个爬虫开发的工具包，方便使用！更牛逼！</description>
 
 	<properties>
