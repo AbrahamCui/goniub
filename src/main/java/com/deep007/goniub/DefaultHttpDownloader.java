@@ -1,23 +1,13 @@
 package com.deep007.goniub;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.regex.Pattern;
-
-import javax.net.ssl.SSLException;
-
-import java.util.Set;
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.deep007.goniub.request.*;
+import com.deep007.goniub.request.HttpRequest.Method;
+import com.deep007.goniub.request.PageRequest.PageEncoding;
+import com.deep007.goniub.response.Page;
+import com.deep007.goniub.response.StreamResponse;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -39,27 +29,19 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.HttpCoreContext;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.deep007.goniub.request.Cookie;
-import com.deep007.goniub.request.Cookies;
-import com.deep007.goniub.request.HttpRequest;
-import com.deep007.goniub.request.HttpsProxy;
-import com.deep007.goniub.request.PageRequest;
-import com.deep007.goniub.request.PageRequestBuilder;
-import com.deep007.goniub.request.HttpRequest.Method;
-import com.deep007.goniub.request.PageRequest.PageEncoding;
-import com.deep007.goniub.response.Page;
-import com.deep007.goniub.response.StreamResponse;
-
-import lombok.extern.slf4j.Slf4j;
+import javax.net.ssl.SSLException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
 
 
 /**
  * 缺省的PageDownloader使用HttpClient作为下载内核
  */
-@Slf4j
 public class DefaultHttpDownloader {
 	
 	private static DefaultHttpDownloader defaultInstance = new DefaultHttpDownloader();
@@ -318,7 +300,7 @@ public class DefaultHttpDownloader {
 					return page;
 				}
 			}
-			log.warn("download vrify page failure url:"+request.getUrl() + " status:"+page.getStatus());
+            System.out.println("download vrify page failure url:"+request.getUrl() + " status:"+page.getStatus());
 			sleep(100);
 		}
 		return page;
@@ -343,10 +325,10 @@ public class DefaultHttpDownloader {
 				}
 			} catch (Exception e) {
 				sleep(100);
-				log.warn("download vrify page failure title:"+request.getUrl() + " status:"+page.getStatus());
+                System.out.println("download vrify page failure title:"+request.getUrl() + " status:"+page.getStatus());
 				continue;
 			}
-			log.warn("download vrify page failure title:"+request.getUrl()+ " status:"+page.getStatus());
+            System.out.println("download vrify page failure title:"+request.getUrl()+ " status:"+page.getStatus());
 			sleep(100);
 		}
 		return page;
