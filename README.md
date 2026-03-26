@@ -5,11 +5,13 @@
 ** goniub是一个java爬虫工具库，如果你想提高开发爬虫的效率，如果你用selenium老是被网站检测到机器识别，如果你想实现js注入。请你立马用goniub。**
 
 ### 添加maven依赖
+
 ```xml
+
 <dependency>
-  <groupId>com.deep007</groupId>
-  <artifactId>goniub</artifactId>
-  <version>2.0.2</version>
+    <groupId>com.rocketcom.rocket</groupId>
+    <artifactId>goniub</artifactId>
+    <version>2.0.2</version>
 </dependency>
 ```
 
@@ -135,11 +137,12 @@ python3 server.py//port of the service default on 60051
 >> 2、java项目依赖mitmproxy-java
 
 ```xml
-		<dependency>
-			<groupId>com.deep007</groupId>
-			<artifactId>mitmproxy-java</artifactId>
-			<version>1.0.6</version>
-		</dependency>
+
+<dependency>
+    <groupId>com.rocketcom.rocket</groupId>
+    <artifactId>mitmproxy-java</artifactId>
+    <version>1.0.6</version>
+</dependency>
 ```
 
 >> 3、准备就绪，发车......
