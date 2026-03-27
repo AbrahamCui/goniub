@@ -15,7 +15,7 @@ public class RocketChromeDriverTest {
 //		RocketChromeOptions.CHROME_PATH = "F:\\work\\code\\java\\tiktok-assistant\\Chrome\\chrome.exe";
 
         /*try {
-            RocketChromeDriver hideMockerFeatureDriver = GoniubInitUtils.getHideMockerFeatureDriver("D:\\work\\code\\java\\tiktok-assistant\\Chrome\\chromedriver.exe","D:\\work\\code\\java\\tiktok-assistant\\Chrome\\chrome.exe");
+            RocketChromeDriver hideMockerFeatureDriver = ChromeInitUtils.getHideMockerFeatureDriver("D:\\work\\code\\java\\tiktok-assistant\\Chrome\\chromedriver.exe","D:\\work\\code\\java\\tiktok-assistant\\Chrome\\chrome.exe");
 //		hideMockerFeatureDriver.get("https://www.taobao.com");
             hideMockerFeatureDriver.get("https://www.baidu.com");
             System.out.println(33333);

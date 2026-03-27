@@ -8,7 +8,7 @@ import com.rocket.chrome.mitm.RocketChromeOptions;
  * @author cjl
  * @version 1.0
  */
-public class GoniubInitUtils {
+public class ChromeInitUtils {
     private static RocketChromeDriver hideMockerFeatureDriver;
     private static void initChromeDriver(String driverPath) {
         initChromeDriver(driverPath,null);
