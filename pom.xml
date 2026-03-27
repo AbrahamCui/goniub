@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.rocket</groupId>
 	<artifactId>chrome-driver</artifactId>
-	<version>2.0.2</version>
+	<version>2.0.4</version>
 	<name>chrome-driver</name>
 
 	<packaging>jar</packaging>
@@ -48,7 +48,7 @@
 				<profiles.active>release</profiles.active>
 			</properties>
 			<!--定义snapshots库和releases库的nexus地址 -->
-			<distributionManagement>
+			<!--<distributionManagement>
 				<snapshotRepository>
 					<id>oss</id>
 					<url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -57,7 +57,7 @@
 					<id>oss</id>
 					<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 				</repository>
-			</distributionManagement>
+			</distributionManagement>-->
 			<build>
 				<plugins>
 					<!-- Source -->
@@ -75,7 +75,7 @@
 						</executions>
 					</plugin>
 					<!-- Javadoc -->
-					<plugin>
+<!--					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
 						<version>2.9.1</version>
@@ -87,8 +87,8 @@
 								</goals>
 							</execution>
 						</executions>
-					</plugin>
-					<plugin>
+					</plugin>-->
+<!--					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
 						<version>1.5</version>
@@ -101,7 +101,7 @@
 								</goals>
 							</execution>
 						</executions>
-					</plugin>
+					</plugin>-->
 				</plugins>
 			</build>
 		</profile>
@@ -209,7 +209,7 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
-			<plugin>
+<!--			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
@@ -221,7 +221,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
@@ -244,6 +244,7 @@
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+
             <!-- 添加Maven Shade Plugin用于打包包含所有依赖的jar包 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -276,6 +277,26 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                             </transformers>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>net.roseboy</groupId>
+                <artifactId>classfinal-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <password>123456</password><!--加密密码，如果是#号，则使用无密码模式加密-->
+                    <packages>com.rocket</packages><!--加密的包名(可为空,多个用","分割)-->
+                    <cfgfiles></cfgfiles><!--需要加密的配置文件，般是classes目录下的ym或properties文件(可为空，多个用"，"分割)-->
+                    <libjars></libjars><!--jar包lib下要加密jar文件名(可为空，多个用”,"分割)-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>classFinal</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
