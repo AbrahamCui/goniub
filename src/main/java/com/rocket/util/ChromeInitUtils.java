@@ -23,21 +23,21 @@ public class ChromeInitUtils {
     private static void initChromeDriver(String driverPath,String chromePath) {
         initChromeDriver(driverPath,chromePath,false);
     }
-    public static RocketChromeDriver getHideMockerFeatureDriver(String driverPath) {
+    protected static RocketChromeDriver getHideMockerFeatureDriver(String driverPath) {
         initChromeDriver(driverPath);
         return hideMockerFeatureDriver;
     }
-    public static RocketChromeDriver getHideMockerFeatureDriver(String driverPath, String chromePath) {
+    protected static RocketChromeDriver getHideMockerFeatureDriver(String driverPath, String chromePath) {
         initChromeDriver(driverPath,chromePath);
         return hideMockerFeatureDriver;
     }
-    public static RocketChromeDriver getHideMockerFeatureDriver(String driverPath, String chromePath, String dataPath, String cachePath) {
+    protected static RocketChromeDriver getHideMockerFeatureDriver(String driverPath, String chromePath, String dataPath, String cachePath) {
 //        initChromeDriver(driverPath,chromePath);
         RocketChromeOptions.setDATA(dataPath);
         RocketChromeOptions.setCACHE(cachePath);
         return getHideMockerFeatureDriver(driverPath,chromePath);
     }
-    public static RocketChromeDriver getHideMockerFeatureDriver(String driverPath, String chromePath, String dataPath, String cachePath, boolean isHide) {
+    protected static RocketChromeDriver getHideMockerFeatureDriver(String driverPath, String chromePath, String dataPath, String cachePath, boolean isHide) {
 //        initChromeDriver(driverPath,chromePath);
         RocketChromeOptions.setDATA(dataPath);
         RocketChromeOptions.setCACHE(cachePath);
@@ -57,13 +57,6 @@ public class ChromeInitUtils {
         }catch (Exception e){
             hideMockerFeatureDriver=null;
             e.printStackTrace();
-        }
-    }
-
-    public static void clearDriver(){
-        if (hideMockerFeatureDriver!=null){
-            hideMockerFeatureDriver.quit();
-            hideMockerFeatureDriver=null;
         }
     }
 }
