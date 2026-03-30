@@ -40,24 +40,38 @@ public class ChromesService {
         if (isCreate == null) {
             return getChrome();
         }
-        RocketChromeDriver goniubChromeDriver = instance.get(id);
+        RocketChromeDriver chromeDriver = instance.get(id);
         if (isCreate) {
-            if (isLive(goniubChromeDriver)) {
-                return goniubChromeDriver;
+            if (isLive(chromeDriver)) {
+                return chromeDriver;
             }
         }
         return createChromeDriver(id, isHide);
     }
 
+    public static void close(RocketChromeDriver chromeDriver) {
+        if (isLive(chromeDriver)) {
+            chromeDriver.quit();
+        }
+    }
+
+    public static void closeAndRemove(RocketChromeDriver chromeDriver) {
+        close(chromeDriver);
+        String idByChrome = getIdByChrome(chromeDriver);
+        if (Boolean.TRUE.equals(isCreate(idByChrome))) {
+            instance.remove(idByChrome);
+        }
+    }
+
     private static synchronized RocketChromeDriver createChromeDriver(String id, boolean isHide) {
-        RocketChromeDriver goniubChromeDriver;
-        int index = instance.size();
-        goniubChromeDriver = ChromeInitUtils.getHideMockerFeatureDriver(chromePath + "chromedriver.exe", chromePath + "chrome.exe", CHROMES_TEMP + index + "\\data", CHROMES_TEMP + index + "\\cache", isHide);
-        DevTools devTools = goniubChromeDriver.getDevTools();
+        RocketChromeDriver chromeDriver;
+        int index = Math.max(instance.size(), getMaxNumberByDirectoryName());
+        chromeDriver = ChromeInitUtils.getHideMockerFeatureDriver(chromePath + "chromedriver.exe", chromePath + "chrome.exe", CHROMES_TEMP + index + "\\data", CHROMES_TEMP + index + "\\cache", isHide);
+        DevTools devTools = chromeDriver.getDevTools();
         devTools.createSession();
         devTools.send(Network.enable(Optional.empty(), Optional.empty(), Optional.empty()));
-        instance.put(id, goniubChromeDriver);
-        return goniubChromeDriver;
+        instance.put(id, chromeDriver);
+        return chromeDriver;
     }
 
     public static Boolean isCreate(String id) {
@@ -79,12 +93,12 @@ public class ChromesService {
         return false;
     }
 
-    public static Boolean isLive(RocketChromeDriver goniubChromeDriver) {
-        if (goniubChromeDriver == null) {
+    public static Boolean isLive(RocketChromeDriver chromeDriver) {
+        if (chromeDriver == null) {
             return null;
         }
         try {
-            System.out.println("getCookieNamed:" + goniubChromeDriver.manage().getCookieNamed(""));
+            System.out.println("getCookieNamed:" + chromeDriver.manage().getCookieNamed(""));
         } catch (Exception e) {
             return false;
         }
@@ -106,4 +120,32 @@ public class ChromesService {
     public static void removeWSSessionId(String id) {
         idAndSessionId.remove(id);
     }
+
+    /**
+     * 获取CHROMES_TEMP目录中所有目录中名字是最大数字的目录名字
+     * @return 最大数字的目录名字，如果没有目录则返回null
+     */
+    public static int getMaxNumberByDirectoryName() {
+        File tempDir = new File(CHROMES_TEMP);
+        int maxNumber = -1;
+        if (!tempDir.exists() || !tempDir.isDirectory()) {
+            return maxNumber;
+        }
+        File[] subDirs = tempDir.listFiles(File::isDirectory);
+        if (subDirs == null) {
+            return maxNumber;
+        }
+        for (File subDir : subDirs) {
+            try {
+                int number = Integer.parseInt(subDir.getName());
+                if (number > maxNumber) {
+                    maxNumber = number;
+                }
+            } catch (NumberFormatException e) {
+                // 忽略非数字目录名
+            }
+        }
+        return maxNumber;
+    }
+
 }
