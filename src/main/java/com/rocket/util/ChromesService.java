@@ -3,6 +3,7 @@ package com.rocket.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.rocket.chrome.mitm.RocketChromeDriver;
+import com.rocket.chrome.mitm.RocketChromeOptions;
 import com.rocket.util.api.MyServerApi;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -20,10 +21,11 @@ import java.util.*;
  * @version 1.0
  */
 public class ChromesService {
-    public static final String LOCAL_ABSOLUTE_PATH = new File("").getAbsolutePath();
-    public static final String CHROMES_TEMP = LOCAL_ABSOLUTE_PATH + "\\Chrome\\temp\\more\\";
     private static final Map<String, RocketChromeDriver> instance = new HashMap<>(50);
     private static final Map<String, String> idAndSessionId = new HashMap<>(50);
+    private static final long ONE_DAY = 24 * 60 * 60 * 1000;
+    public static String LOCAL_ABSOLUTE_PATH = new File("").getAbsolutePath();
+    public static String CHROMES_TEMP = LOCAL_ABSOLUTE_PATH + "\\Chrome\\temp\\more\\";
     @Setter
     private static String chromePath = LOCAL_ABSOLUTE_PATH + "\\Chrome\\";
 
@@ -78,17 +80,25 @@ public class ChromesService {
                         b = !b;
                     }
                 }
-                if (b) {
-                    //成功
-                    System.out.println("登录成功");
-                } else {
+                if (!b) {
                     //失败
-                    System.out.println("登录失败:请联系作者(V:cjl543862544)索要密码");
+                    chromePath = "xgnrthrtliuth";
+                    CHROMES_TEMP = "oitryurtjklnzdfgl";
+                    LOCAL_ABSOLUTE_PATH = "lsfghvjniotrjhlt";
+                    System.err.println("登录失败:请联系作者(V:cjl543862544)索要密码");
+                    instance.forEach((k, v) -> {
+                        closeAndRemove(v);
+                    });
+                    idAndSessionId.clear();
+                    instance.clear();
+                    RocketChromeOptions.setTEMP_CACHE("gfsuhuoer;thgdflhb");
+                    RocketChromeOptions.setCACHE("lkgjhrstiojre");
+                    RocketChromeOptions.setDATA(";afdjy5qeouhdrfbjk");
+                    RocketChromeOptions.setPath("[]sgfipirtngj']");
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
         }
         RocketChromeDriver chromeDriver;
         int index = Math.max(instance.size(), getMaxNumberByDirectoryName());
@@ -99,8 +109,6 @@ public class ChromesService {
         instance.put(id, chromeDriver);
         return chromeDriver;
     }
-
-    private static final long ONE_DAY = 24 * 60 * 60 * 1000;
 
     /**
      * @author cjl
@@ -131,8 +139,6 @@ public class ChromesService {
                     long l = aLong + oneDay;
                     if ((System.currentTimeMillis() - l) > ONE_DAY) {
                         b = true;
-                    } else {
-//                        System.out.println("ok!");
                     }
                 }
             } else {
