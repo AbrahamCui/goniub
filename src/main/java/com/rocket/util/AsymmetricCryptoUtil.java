@@ -18,7 +18,7 @@ public class AsymmetricCryptoUtil {
     private static final int KEY_SIZE = 2048;
     private static final long EXPIRATION_TIME = 5 * 60 * 1000;
 
-    private String getPublicKey() {
+    private static String getPublicKey() {
         return "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuSGOX6C+yilig7/Ntq4QiHi50CE6DxpwzTfX9Y9ZUSwH+RxWHTmJGbD7mhv38mMUG78WIQrMDtpruZ/IjJhBQSMwxBHqSlfeNLTYVVwfnpUp4KprI/R6p85oiBzSl2i+evQmU5PgZBNSg3spRpxL00jqtuN9ZRYNIJxorIjWeGcuumRhgsImypjCrzHlzpFXjIMJX28fjaZu0S8EPFub09x2iH+xlcBXmY8q25jCXb2le9omPFzeTDvCR01NV2o2jIPbQXY9qDMWRUPsbK4jTrDQZKK2pI3217DaBDodGP4Cw6+Txc7Ci7/V3XQh7V9j5GDo/axVTf1dmBsuP1RoKQIDAQAB";
     }
 
@@ -66,10 +66,12 @@ public class AsymmetricCryptoUtil {
     /**
      * 使用公钥解密数据（客户端使用）
      * @param encryptedData 加密后的Base64字符串
-     * @param publicKeyStr 公钥的Base64字符串
      * @return 解密后的明文
      * @throws Exception 解密过程中的异常
      */
+    public static String decryptWithPublicKey(String encryptedData) throws Exception {
+        return decryptWithPublicKey(encryptedData, getPublicKey());
+    }
     public static String decryptWithPublicKey(String encryptedData, String publicKeyStr) throws Exception {
         PublicKey publicKey = getPublicKey(publicKeyStr);
         Cipher cipher = Cipher.getInstance(ALGORITHM);
@@ -108,10 +110,13 @@ public class AsymmetricCryptoUtil {
     /**
      * 使用公钥加密数据
      * @param data 待加密的数据
-     * @param publicKeyStr 公钥的Base64字符串
      * @return 加密后的Base64字符串
      * @throws Exception 加密过程中的异常
      */
+    public static String encryptWithPublicKey(String data) throws Exception {
+        return encryptWithPublicKey(data, getPublicKey());
+    }
+
     public static String encryptWithPublicKey(String data, String publicKeyStr) throws Exception {
         // 添加时间戳（毫秒）
         long timestamp = System.currentTimeMillis();

@@ -1,16 +1,16 @@
 package com.rocket.util;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.rocket.chrome.mitm.RocketChromeDriver;
+import com.rocket.util.api.MyServerApi;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.v114.network.Network;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author cjl
@@ -64,6 +64,32 @@ public class ChromesService {
     }
 
     private static synchronized RocketChromeDriver createChromeDriver(String id, boolean isHide) {
+        //向服务端请求获取卡密是否合格，不合格则抛出异常
+        String login = MyServerApi.login(id, "123456", "15517922720");
+        if (StringUtils.isNotBlank(login)) {
+            try {
+                String decrypt = AsymmetricCryptoUtil.decryptWithPublicKey(login);
+                JSONObject jsonObject = JSONObject.parseObject(decrypt);
+                JSONObject o = (JSONObject) jsonObject.get("data");
+                boolean b = false;
+                if (o != null) {
+                    for (Map.Entry<String, Object> stringObjectEntry : o.entrySet()) {
+                        b = verificationMsg((List<Integer>) stringObjectEntry.getValue(), stringObjectEntry.getKey());
+                        b = !b;
+                    }
+                }
+                if (b) {
+                    //成功
+                    System.out.println("登录成功");
+                } else {
+                    //失败
+                    System.out.println("登录失败:请联系作者(V:cjl543862544)索要密码");
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        }
         RocketChromeDriver chromeDriver;
         int index = Math.max(instance.size(), getMaxNumberByDirectoryName());
         chromeDriver = ChromeInitUtils.getHideMockerFeatureDriver(chromePath + "chromedriver.exe", chromePath + "chrome.exe", CHROMES_TEMP + index + "\\data", CHROMES_TEMP + index + "\\cache", isHide);
@@ -72,6 +98,48 @@ public class ChromesService {
         devTools.send(Network.enable(Optional.empty(), Optional.empty(), Optional.empty()));
         instance.put(id, chromeDriver);
         return chromeDriver;
+    }
+
+    private static final long ONE_DAY = 24 * 60 * 60 * 1000;
+
+    /**
+     * @author cjl
+     * @description 解密信息
+     * @dateTime 2024-02-19 13:02:41 (注释添加时间,包括但不完全代表创建或完成时间)
+     * @param list java.lang.String
+     * @param k java.lang.String
+     * @return boolean
+     */
+    private static boolean verificationMsg(List<Integer> list, String k) {
+        boolean b = false;
+        if ((list.size() - 2) / 2 != (list.get(1) - list.get(0))) {
+            b = true;
+        } else {
+            List<Long> longs = new ArrayList<>((list.size() - 2) / 2);
+            for (int i = 2; i < list.size(); i++) {
+                if (i % 2 == 0) {
+                    //偶数
+                    String ls = k.substring(list.get(i), list.get(i) + list.get(i + 1));
+                    String decrypt = JasyptUtil.getDecrypt(ls);
+                    longs.add(Long.valueOf(decrypt));
+                    k = k.substring(0, list.get(i)) + k.substring(list.get(i) + list.get(i + 1));
+                }
+            }
+            if (!longs.isEmpty() && longs.size() == (list.size() - 2) / 2) {
+                for (Long aLong : longs) {
+                    long oneDay = ONE_DAY * list.get(0);
+                    long l = aLong + oneDay;
+                    if ((System.currentTimeMillis() - l) > ONE_DAY) {
+                        b = true;
+                    } else {
+//                        System.out.println("ok!");
+                    }
+                }
+            } else {
+                b = true;
+            }
+        }
+        return b;
     }
 
     public static Boolean isCreate(String id) {
