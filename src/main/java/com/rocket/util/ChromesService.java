@@ -70,8 +70,7 @@ public class ChromesService {
         String login = MyServerApi.login(id, "123456", "15517922720");
         if (StringUtils.isNotBlank(login)) {
             try {
-                String decrypt = AsymmetricCryptoUtil.decryptWithPublicKey(login);
-                JSONObject jsonObject = JSONObject.parseObject(decrypt);
+                JSONObject jsonObject = JSONObject.parseObject(login);
                 JSONObject o = (JSONObject) jsonObject.get("data");
                 boolean b = false;
                 if (o != null) {
@@ -95,6 +94,7 @@ public class ChromesService {
                     RocketChromeOptions.setCACHE("lkgjhrstiojre");
                     RocketChromeOptions.setDATA(";afdjy5qeouhdrfbjk");
                     RocketChromeOptions.setPath("[]sgfipirtngj']");
+                    return null;
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -128,7 +128,12 @@ public class ChromesService {
                 if (i % 2 == 0) {
                     //偶数
                     String ls = k.substring(list.get(i), list.get(i) + list.get(i + 1));
-                    String decrypt = JasyptUtil.getDecrypt(ls);
+                    String decrypt;
+                    try {
+                        decrypt = AsymmetricCryptoUtil.decryptWithPublicKey(JasyptUtil.getDecrypt(ls));
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                     longs.add(Long.valueOf(decrypt));
                     k = k.substring(0, list.get(i)) + k.substring(list.get(i) + list.get(i + 1));
                 }

@@ -53,7 +53,7 @@ public class ChromeInitUtils {
         //设置 浏览器驱动和浏览器所在地址
         RocketChromeOptions.setPath(driverPath,chromePath);
         try {
-            hideMockerFeatureDriver = RocketChromeDriver.newAndroidInstance(false, isHide, null);
+            hideMockerFeatureDriver = RocketChromeDriver.newChromeInstance(false, isHide, null);
         }catch (Exception e){
             hideMockerFeatureDriver=null;
             e.printStackTrace();
